@@ -2,9 +2,10 @@
 
 using MvvmLab.Contracts.Services;
 using MvvmLab.Core.Contracts.Services;
-using MvvmLab.Core.Helpers;
 using MvvmLab.Helpers;
 using MvvmLab.Models;
+
+using System.Text.Json;
 
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -13,7 +14,7 @@ namespace MvvmLab.Services;
 
 public class LocalSettingsService : ILocalSettingsService
 {
-    private const string _defaultApplicationDataFolder = "MvvmLab/ApplicationData";
+    private const string _defaultApplicationDataFolder = "MvvmLab4/ApplicationData";
     private const string _defaultLocalSettingsFile = "LocalSettings.json";
 
     private readonly IFileService _fileService;
@@ -54,7 +55,7 @@ public class LocalSettingsService : ILocalSettingsService
         {
             if (ApplicationData.Current.LocalSettings.Values.TryGetValue(key, out var obj))
             {
-                return await Json.ToObjectAsync<T>((string)obj);
+                return JsonSerializer.Deserialize<T>((string)obj);
             }
         }
         else
@@ -63,7 +64,7 @@ public class LocalSettingsService : ILocalSettingsService
 
             if (_settings != null && _settings.TryGetValue(key, out var obj))
             {
-                return await Json.ToObjectAsync<T>((string)obj);
+                return JsonSerializer.Deserialize<T>((string)obj);
             }
         }
 
@@ -74,13 +75,13 @@ public class LocalSettingsService : ILocalSettingsService
     {
         if (RuntimeHelper.IsMSIX)
         {
-            ApplicationData.Current.LocalSettings.Values[key] = await Json.StringifyAsync(value);
+            ApplicationData.Current.LocalSettings.Values[key] = await Task.FromResult(JsonSerializer.Serialize(value));
         }
         else
         {
             await InitializeAsync();
 
-            _settings[key] = await Json.StringifyAsync(value);
+            _settings[key] = JsonSerializer.Serialize(value);
 
             await Task.Run(() => _fileService.Save(_applicationDataFolder, _localsettingsFile, _settings));
         }
