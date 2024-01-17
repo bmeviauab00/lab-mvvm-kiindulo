@@ -28,6 +28,7 @@
         <controls:AdaptiveGridView Grid.Row="1"
                                    DesiredWidth="180"
                                    IsItemClickEnabled="True"
+                                   ItemClickCommand="{x:Bind ViewModel.RecipeSelectedCommand, Mode=OneWay}"
                                    ItemHeight="160"
                                    ItemsSource="{x:Bind RecipeGroupsCollectionSource.View, Mode=OneWay}"
                                    SelectionMode="None"

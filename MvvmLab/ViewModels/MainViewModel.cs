@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
+using MvvmLab.Contracts.Services;
 using MvvmLab.Contracts.ViewModels;
 using MvvmLab.Core.Models;
 using MvvmLab.Core.Services;
@@ -9,13 +11,15 @@ namespace MvvmLab.ViewModels;
 public partial class MainViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IRecipeService _recipeService;
+    private readonly INavigationService _navigationService;
 
     [ObservableProperty]
     private List<RecipeGroup>? _recipeGroups = new();
 
-    public MainViewModel(IRecipeService recipeService)
+    public MainViewModel(IRecipeService recipeService, INavigationService navigationService)
     {
         _recipeService = recipeService;
+        _navigationService = navigationService;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -25,5 +29,11 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
 
     public void OnNavigatedFrom()
     {
+    }
+
+    [RelayCommand]
+    private void RecipeSelected(RecipeHeader recipe)
+    {
+        _navigationService.NavigateTo(typeof(RecipeDetailViewModel).FullName!, recipe.Id);
     }
 }

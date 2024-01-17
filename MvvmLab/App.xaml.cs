@@ -71,6 +71,9 @@ public partial class App : Application
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
 
+            services.AddTransient<RecipeDetailViewModel>();
+            services.AddTransient<RecipeDetailPage>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
