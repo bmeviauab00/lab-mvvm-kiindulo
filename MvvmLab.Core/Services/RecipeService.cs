@@ -13,4 +13,10 @@ public class RecipeService : IRecipeService
         using var client = new HttpClient();
         return await client.GetFromJsonAsync<List<RecipeGroup>>($"{_baseUrl}/Recipes/Groups");
     }
+
+    public async Task<Recipe> GetRecipeAsync(int id)
+    {
+        using var client = new HttpClient();
+        return await client.GetFromJsonAsync<Recipe>($"{_baseUrl}/Recipes/{id}");
+    }
 }
