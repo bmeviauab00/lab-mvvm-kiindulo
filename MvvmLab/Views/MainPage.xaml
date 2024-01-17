@@ -1,11 +1,19 @@
-﻿<Page
-    x:Class="MvvmLab.Views.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
-    mc:Ignorable="d">
+﻿<Page x:Class="MvvmLab.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:MvvmLab.Core.Models"
+      Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="RecipeGroupsCollectionSource"
+                              IsSourceGrouped="True"
+                              ItemsPath="Recipes"
+                              Source="{x:Bind ViewModel.RecipeGroups, Mode=OneWay}" />
+    </Page.Resources>
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
@@ -13,14 +21,44 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            x:Uid="Main_Title"
-            Style="{StaticResource PageTitleStyle}" />
+        <TextBlock x:Uid="Main_Title"
+                   Grid.Row="0"
+                   Style="{StaticResource PageTitleStyle}" />
 
-        <Grid Grid.Row="1">
-            
-        </Grid>
-        
+        <controls:AdaptiveGridView Grid.Row="1"
+                                   DesiredWidth="180"
+                                   IsItemClickEnabled="True"
+                                   ItemHeight="160"
+                                   ItemsSource="{x:Bind RecipeGroupsCollectionSource.View, Mode=OneWay}"
+                                   SelectionMode="None"
+                                   StretchContentForSingleRow="False">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:RecipeHeader">
+                    <Grid MaxWidth="300">
+                        <Image Source="{x:Bind BackgroundImage}" />
+                        <Border Height="40"
+                                Padding="10,0,0,0"
+                                VerticalAlignment="Bottom"
+                                Background="#88000000">
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="White"
+                                       Text="{x:Bind Title}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate x:DataType="models:RecipeGroup">
+                            <TextBlock Margin="0"
+                                       Style="{ThemeResource TitleTextBlockStyle}"
+                                       Text="{x:Bind Title}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+        </controls:AdaptiveGridView>
     </Grid>
+
 </Page>
