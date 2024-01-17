@@ -21,9 +21,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="Main_Title"
-                   Grid.Row="0"
-                   Style="{StaticResource PageTitleStyle}" />
+        <TextBlock Grid.Row="0"
+                   Style="{StaticResource TitleLargeTextBlockStyle}"
+                   Text="Recipes" />
 
         <controls:AdaptiveGridView Grid.Row="1"
                                    DesiredWidth="180"

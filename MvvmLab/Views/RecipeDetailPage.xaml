@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
-                   Style="{StaticResource PageTitleStyle}"
+                   Style="{StaticResource TitleTextBlockStyle}"
                    Text="{x:Bind ViewModel.Recipe.Title, Mode=OneWay}" />
 
         <Grid Grid.Row="1">
