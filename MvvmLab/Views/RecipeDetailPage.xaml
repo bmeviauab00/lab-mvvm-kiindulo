@@ -98,6 +98,22 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
+                <StackPanel x:Name="comments"
+                            Grid.Row="2"
+                            Margin="24,0,24,0"
+                            Orientation="Vertical">
+                    <TextBox Margin="0,0,0,16"
+                             Header="Name"
+                             Text="{x:Bind ViewModel.NewCommentName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Margin="0,0,0,16"
+                             Header="Comment"
+                             Text="{x:Bind ViewModel.NewCommentText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button Margin="0,0,0,16"
+                            HorizontalAlignment="Right"
+                            Command="{x:Bind ViewModel.SendCommentCommand}"
+                            Content="Send" />
+                </StackPanel>
+
             </Grid>
         </Grid>
     </Grid>

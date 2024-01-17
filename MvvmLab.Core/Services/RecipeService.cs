@@ -19,4 +19,11 @@ public class RecipeService : IRecipeService
         using var client = new HttpClient();
         return await client.GetFromJsonAsync<Recipe>($"{_baseUrl}/Recipes/{id}");
     }
+
+    public async Task SendCommentAsync(int id, NewComment comment)
+    {
+        using var client = new HttpClient();
+        var response = await client.PostAsJsonAsync($"{_baseUrl}/Recipes/{id}/Comments", comment);
+        response.EnsureSuccessStatusCode();
+    }
 }
