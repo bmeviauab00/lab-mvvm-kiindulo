@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:MvvmLab.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:MvvmLab.Core.Models"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
@@ -17,5 +18,87 @@
         <TextBlock Grid.Row="0"
                    Style="{StaticResource PageTitleStyle}"
                    Text="{x:Bind ViewModel.Recipe.Title, Mode=OneWay}" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel x:Name="images"
+                                Margin="0,0,24,0"
+                                Orientation="Vertical">
+                        <TextBlock Margin="0,0,0,12"
+                                   Style="{StaticResource SubtitleTextBlockStyle}"
+                                   Text="Images" />
+                        <FlipView x:Name="flipView"
+                                  MaxHeight="250"
+                                  VerticalAlignment="Top"
+                                  ItemsSource="{x:Bind ViewModel.Recipe.ExtraImages, Mode=OneWay}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding}" Stretch="Uniform" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </StackPanel>
+
+                    <StackPanel x:Name="ingredients"
+                                Margin="0,0,24,0"
+                                Orientation="Vertical">
+                        <TextBlock Margin="0,0,0,12"
+                                   Style="{StaticResource SubtitleTextBlockStyle}"
+                                   Text="Ingredients" />
+                        <ItemsControl HorizontalAlignment="Left" ItemsSource="{x:Bind ViewModel.Recipe.Ingredients, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="0,0,0,10"
+                                               Text="{Binding}"
+                                               TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel x:Name="directions"
+                                Margin="0,0,24,0"
+                                Orientation="Vertical"
+                                RelativePanel.RightOf="ingredients">
+                        <TextBlock Margin="0,0,0,12"
+                                   Style="{StaticResource SubtitleTextBlockStyle}"
+                                   Text="Directions" />
+                        <TextBlock HorizontalAlignment="Left"
+                                   Text="{x:Bind ViewModel.Recipe.Directions, Mode=OneWay}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid Grid.Column="1" RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="Comments" />
+
+                <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Recipe.Comments, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Comment">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="Bold" Text="{x:Bind Name}" />
+                                <TextBlock Text="{x:Bind Text}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
