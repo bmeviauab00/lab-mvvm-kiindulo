@@ -6,11 +6,10 @@ namespace MvvmLab.Views;
 
 public sealed partial class MainPage : Page
 {
-    public MainViewModel ViewModel { get; }
+    public MainViewModel ViewModel => DataContext as MainViewModel;
 
     public MainPage()
     {
-        DataContext = ViewModel = App.GetService<MainViewModel>();
         InitializeComponent();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -14,6 +15,8 @@ namespace MvvmLab.Services;
 public class NavigationService : INavigationService
 {
     private readonly IPageService _pageService;
+    private readonly IServiceProvider _serviceProvider;
+
     private object? _lastParameterUsed;
     private Frame? _frame;
 
@@ -43,9 +46,10 @@ public class NavigationService : INavigationService
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
 
-    public NavigationService(IPageService pageService)
+    public NavigationService(IPageService pageService, IServiceProvider serviceProvider)
     {
         _pageService = pageService;
+        _serviceProvider = serviceProvider;
     }
 
     private void RegisterFrameEvents()
@@ -84,6 +88,7 @@ public class NavigationService : INavigationService
     public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
+        var vmType = _pageService.GetViewModelType(pageKey);
 
         if (_frame != null && (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed))))
         {
@@ -97,6 +102,8 @@ public class NavigationService : INavigationService
                 {
                     navigationAware.OnNavigatedFrom();
                 }
+
+                _frame.SetPageViewModel(_serviceProvider.GetRequiredService(vmType));
             }
 
             return navigated;
