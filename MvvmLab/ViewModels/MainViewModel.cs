@@ -5,6 +5,7 @@ using MvvmLab.Contracts.Services;
 using MvvmLab.Contracts.ViewModels;
 using MvvmLab.Core.Models;
 using MvvmLab.Core.Services;
+using MvvmLab.Services;
 
 namespace MvvmLab.ViewModels;
 
@@ -34,6 +35,6 @@ public partial class MainViewModel : ObservableRecipient, INavigationAware
     [RelayCommand]
     private void RecipeSelected(RecipeHeader recipe)
     {
-        _navigationService.NavigateTo(typeof(RecipeDetailViewModel).FullName!, recipe.Id);
+        _navigationService.NavigateTo(Pages.Detail, recipe.Id);
     }
 }

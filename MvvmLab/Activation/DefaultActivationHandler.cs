@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 
 using MvvmLab.Contracts.Services;
-using MvvmLab.ViewModels;
+using MvvmLab.Services;
 
 namespace MvvmLab.Activation;
 
@@ -22,7 +22,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        _navigationService.NavigateTo(typeof(MainViewModel).FullName!, args.Arguments);
+        _navigationService.NavigateTo(Pages.Main, args.Arguments);
 
         await Task.CompletedTask;
     }

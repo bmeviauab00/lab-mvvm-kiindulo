@@ -8,49 +8,66 @@ using MvvmLab.Views;
 
 namespace MvvmLab.Services;
 
+public static class Pages
+{
+    public static string Main { get; } = "Main";
+    public static string Detail { get; } = "Detail";
+}
+
 public class PageService : IPageService
 {
-    private readonly Dictionary<string, Type> _pages = new();
+    private readonly Dictionary<string, (Type ViewModelType, Type ViewType)> _pages = new();
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>();
-        Configure<RecipeDetailViewModel, RecipeDetailPage>();
+        Configure<MainViewModel, MainPage>(Pages.Main);
+        Configure<RecipeDetailViewModel, RecipeDetailPage>(Pages.Detail);
     }
 
     public Type GetPageType(string key)
     {
-        Type? pageType;
         lock (_pages)
         {
-            if (!_pages.TryGetValue(key, out pageType))
+            if (!_pages.TryGetValue(key, out var pageType))
             {
                 throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
             }
-        }
 
-        return pageType;
+            return pageType.ViewType;
+        }
     }
 
-    private void Configure<VM, V>()
+    public Type GetViewModelType(string key)
+    {
+        lock (_pages)
+        {
+            if (!_pages.TryGetValue(key, out var pageType))
+            {
+                throw new ArgumentException($"ViewModel not found: {key}. Did you forget to call PageService.Configure?");
+            }
+
+            return pageType.ViewModelType;
+        }
+    }
+
+    private void Configure<VM, V>(string key)
         where VM : ObservableObject
         where V : Page
     {
         lock (_pages)
         {
-            var key = typeof(VM).FullName!;
             if (_pages.ContainsKey(key))
             {
                 throw new ArgumentException($"The key {key} is already configured in PageService");
             }
 
-            var type = typeof(V);
-            if (_pages.ContainsValue(type))
+            var types = (ViewModelType: typeof(VM), ViewType: typeof(V));
+            if (_pages.ContainsValue(types))
             {
-                throw new ArgumentException($"This type is already configured with key {_pages.First(p => p.Value == type).Key}");
+                throw new ArgumentException($"This type is already configured with key {_pages.First(p => p.Value == types).Key}");
             }
 
-            _pages.Add(key, type);
+            _pages.Add(key, (ViewModelType: typeof(VM), ViewType: typeof(V)));
         }
     }
 }

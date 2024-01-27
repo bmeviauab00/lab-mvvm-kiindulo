@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -14,6 +15,8 @@ namespace MvvmLab.Services;
 public class NavigationService : INavigationService
 {
     private readonly IPageService _pageService;
+    private readonly IServiceProvider _serviceProvider;
+
     private object? _lastParameterUsed;
     private Frame? _frame;
 
@@ -43,9 +46,10 @@ public class NavigationService : INavigationService
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
 
-    public NavigationService(IPageService pageService)
+    public NavigationService(IPageService pageService, IServiceProvider serviceProvider)
     {
         _pageService = pageService;
+        _serviceProvider = serviceProvider;
     }
 
     private void RegisterFrameEvents()
@@ -87,7 +91,7 @@ public class NavigationService : INavigationService
 
         if (_frame != null && (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed))))
         {
-            _frame.Tag = clearNavigation;
+            _frame.Tag = (clearNavigation, _pageService.GetViewModelType(pageKey));
             var vmBeforeNavigation = _frame.GetPageViewModel();
             var navigated = _frame.Navigate(pageType, parameter);
             if (navigated)
@@ -97,6 +101,7 @@ public class NavigationService : INavigationService
                 {
                     navigationAware.OnNavigatedFrom();
                 }
+
             }
 
             return navigated;
@@ -109,12 +114,13 @@ public class NavigationService : INavigationService
     {
         if (sender is Frame frame)
         {
-            var clearNavigation = (bool)frame.Tag;
+            var (clearNavigation, vmType) = ((bool clearNavigation, Type vmType))frame.Tag;
             if (clearNavigation)
             {
                 frame.BackStack.Clear();
             }
 
+            _frame.SetPageViewModel(_serviceProvider.GetRequiredService(vmType));
             if (frame.GetPageViewModel() is INavigationAware navigationAware)
             {
                 navigationAware.OnNavigatedTo(e.Parameter);

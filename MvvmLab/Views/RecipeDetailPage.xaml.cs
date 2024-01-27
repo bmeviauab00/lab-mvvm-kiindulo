@@ -6,11 +6,10 @@ namespace MvvmLab.Views;
 
 public sealed partial class RecipeDetailPage : Page
 {
-    public RecipeDetailViewModel ViewModel { get; }
+    public RecipeDetailViewModel ViewModel => (RecipeDetailViewModel)DataContext;
 
     public RecipeDetailPage()
     {
-        DataContext = ViewModel = App.GetService<RecipeDetailViewModel>();
         InitializeComponent();
     }
 }
