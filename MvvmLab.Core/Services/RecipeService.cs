@@ -6,6 +6,7 @@ namespace MvvmLab.Core.Services;
 
 public class RecipeService : IRecipeService
 {
+    // TODO új backend
     private readonly string _baseUrl = "https://bmecookbook.azurewebsites.net/api";
 
     public async Task<List<RecipeGroup>> GetRecipeGroupsAsync()
@@ -20,7 +21,7 @@ public class RecipeService : IRecipeService
         return await client.GetFromJsonAsync<Recipe>($"{_baseUrl}/Recipes/{id}");
     }
 
-    public async Task SendCommentAsync(int id, NewComment comment)
+    public async Task SendCommentAsync(int id, Comment comment)
     {
         using var client = new HttpClient();
         var response = await client.PostAsJsonAsync($"{_baseUrl}/Recipes/{id}/Comments", comment);

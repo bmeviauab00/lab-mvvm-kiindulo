@@ -41,13 +41,11 @@ public partial class RecipeDetailViewModel : ObservableRecipient, INavigationAwa
     [RelayCommand(CanExecute = nameof(CanExecuteSendComment))]
     private async Task SendComment()
     {
-        var newComment = new NewComment
+        await _recipeService.SendCommentAsync(Recipe!.Id, new Comment
         {
-            Email = NewCommentName,
+            Name = NewCommentName,
             Text = NewCommentText
-        };
-
-        await _recipeService.SendCommentAsync(Recipe!.Id, newComment);
+        });
 
         NewCommentName = string.Empty;
         NewCommentText = string.Empty;
