@@ -6,8 +6,7 @@ namespace MvvmLab.Core.Services;
 
 public class RecipeService : IRecipeService
 {
-    // TODO új backend
-    private readonly string _baseUrl = "https://bmecookbook.azurewebsites.net/api";
+    private readonly string _baseUrl = "https://bmecookbook2.azurewebsites.net/api";
 
     public async Task<List<RecipeGroup>> GetRecipeGroupsAsync()
     {
