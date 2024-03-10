@@ -15,9 +15,9 @@
                               Source="{x:Bind ViewModel.RecipeGroups, Mode=OneWay}" />
     </Page.Resources>
 
-    <Grid x:Name="ContentArea">
+    <Grid x:Name="ContentArea" Padding="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -61,5 +61,4 @@
             </GridView.GroupStyle>
         </controls:AdaptiveGridView>
     </Grid>
-
 </Page>
