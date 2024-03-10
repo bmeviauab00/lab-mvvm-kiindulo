@@ -88,11 +88,10 @@ public class NavigationService : INavigationService
     public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
-        var vmType = _pageService.GetViewModelType(pageKey);
 
         if (_frame != null && (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed))))
         {
-            _frame.Tag = clearNavigation;
+            _frame.Tag = (clearNavigation, _pageService.GetViewModelType(pageKey));
             var vmBeforeNavigation = _frame.GetPageViewModel();
             var navigated = _frame.Navigate(pageType, parameter);
             if (navigated)
@@ -103,7 +102,6 @@ public class NavigationService : INavigationService
                     navigationAware.OnNavigatedFrom();
                 }
 
-                _frame.SetPageViewModel(_serviceProvider.GetRequiredService(vmType));
             }
 
             return navigated;
@@ -116,12 +114,13 @@ public class NavigationService : INavigationService
     {
         if (sender is Frame frame)
         {
-            var clearNavigation = (bool)frame.Tag;
+            var (clearNavigation, vmType) = ((bool clearNavigation, Type vmType))frame.Tag;
             if (clearNavigation)
             {
                 frame.BackStack.Clear();
             }
 
+            _frame.SetPageViewModel(_serviceProvider.GetRequiredService(vmType));
             if (frame.GetPageViewModel() is INavigationAware navigationAware)
             {
                 navigationAware.OnNavigatedTo(e.Parameter);
