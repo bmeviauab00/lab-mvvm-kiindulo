@@ -60,5 +60,6 @@
                 </GroupStyle>
             </GridView.GroupStyle>
         </controls:AdaptiveGridView>
+
     </Grid>
 </Page>

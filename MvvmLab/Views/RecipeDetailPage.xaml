@@ -11,11 +11,11 @@
 
     <Grid x:Name="ContentArea">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
+        <TextBlock Grid.Row="0" Padding="10"
                    Style="{StaticResource TitleTextBlockStyle}"
                    Text="{x:Bind ViewModel.Recipe.Title, Mode=OneWay}" />
 
@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ScrollViewer Grid.Column="0">
+            <ScrollViewer Grid.Column="0" Padding="20 10 10 20">
                 <StackPanel Orientation="Vertical">
                     <StackPanel x:Name="images"
                                 Margin="0,0,24,0"
@@ -90,7 +90,7 @@
                 <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Recipe.Comments, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:Comment">
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Padding="0 5 0 5">
                                 <TextBlock FontWeight="Bold" Text="{x:Bind Name}" />
                                 <TextBlock Text="{x:Bind Text}" />
                             </StackPanel>
