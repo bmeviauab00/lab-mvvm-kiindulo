@@ -15,7 +15,7 @@ public partial class MainViewModel : ObservableObject, INavigationAware
     private readonly INavigationService _navigationService;
 
     [ObservableProperty]
-    private List<RecipeGroup>? _recipeGroups = new();
+    private List<RecipeGroup> _recipeGroups = new();
 
     public MainViewModel(IRecipeService recipeService, INavigationService navigationService)
     {
