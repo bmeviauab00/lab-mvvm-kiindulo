@@ -68,7 +68,7 @@ public partial class App : Application
                 services.AddTransient<MainPageViewModel>();
                 services.AddTransient<MainPage>();
 
-            	services.AddTransient<RecipeDetailViewModel>();
+            	services.AddTransient<RecipeDetailPageViewModel>();
             	services.AddTransient<RecipeDetailPage>();
 
                 // Configuration

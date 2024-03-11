@@ -21,7 +21,7 @@ public class PageService : IPageService
     public PageService()
     {
         Configure<MainPageViewModel, MainPage>(Pages.Main);
-        Configure<RecipeDetailViewModel, RecipeDetailPage>(Pages.Detail);
+        Configure<RecipeDetailPageViewModel, RecipeDetailPage>(Pages.Detail);
     }
 
     public Type GetPageType(string key)

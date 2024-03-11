@@ -6,7 +6,7 @@ namespace MvvmLab.Views;
 
 public sealed partial class RecipeDetailPage : Page
 {
-    public RecipeDetailViewModel ViewModel => (RecipeDetailViewModel)DataContext;
+    public RecipeDetailPageViewModel ViewModel => (RecipeDetailPageViewModel)DataContext;
 
     public RecipeDetailPage()
     {

@@ -9,7 +9,7 @@ using MvvmLab.Services;
 
 namespace MvvmLab.ViewModels;
 
-public partial class MainViewModel : ObservableObject, INavigationAware
+public partial class MainPageViewModel : ObservableObject, INavigationAware
 {
     private readonly IRecipeService _recipeService;
     private readonly INavigationService _navigationService;
