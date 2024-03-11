@@ -8,10 +8,10 @@ public class RecipeService : IRecipeService
 {
     private readonly string _baseUrl = "https://bmecookbook2.azurewebsites.net/api";
 
-    public async Task<List<RecipeGroup>> GetRecipeGroupsAsync()
+    public async Task<RecipeGroup[]> GetRecipeGroupsAsync()
     {
         using var client = new HttpClient();
-        return await client.GetFromJsonAsync<List<RecipeGroup>>($"{_baseUrl}/Recipes/Groups");
+        return await client.GetFromJsonAsync<RecipeGroup[]>($"{_baseUrl}/Recipes/Groups");
     }
 
     public async Task<Recipe> GetRecipeAsync(int id)
