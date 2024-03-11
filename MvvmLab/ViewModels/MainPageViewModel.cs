@@ -17,7 +17,7 @@ public partial class MainViewModel : ObservableObject, INavigationAware
     [ObservableProperty]
     private RecipeGroup[] _recipeGroups = Array.Empty<RecipeGroup>();
 
-    public MainViewModel(IRecipeService recipeService, INavigationService navigationService)
+    public MainPageViewModel(IRecipeService recipeService, INavigationService navigationService)
     {
         _recipeService = recipeService;
         _navigationService = navigationService;

@@ -6,7 +6,7 @@ namespace MvvmLab.Views;
 
 public sealed partial class MainPage : Page
 {
-    public MainViewModel ViewModel => DataContext as MainViewModel;
+    public MainPageViewModel ViewModel => DataContext as MainPageViewModel;
 
     public MainPage()
     {

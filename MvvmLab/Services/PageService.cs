@@ -20,7 +20,7 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>(Pages.Main);
+        Configure<MainPageViewModel, MainPage>(Pages.Main);
         Configure<RecipeDetailViewModel, RecipeDetailPage>(Pages.Detail);
     }
 
