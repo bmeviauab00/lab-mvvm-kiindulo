@@ -7,7 +7,7 @@ using MvvmLab.Core.Services;
 
 namespace MvvmLab.ViewModels;
 
-public partial class RecipeDetailViewModel : ObservableRecipient, INavigationAware
+public partial class RecipeDetailViewModel : ObservableObject, INavigationAware
 {
     private readonly IRecipeService _recipeService;
 
