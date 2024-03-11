@@ -19,7 +19,7 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>(Pages.Main);
+        Configure<MainPageViewModel, MainPage>(Pages.Main);
     }
 
     public Type GetPageType(string key)

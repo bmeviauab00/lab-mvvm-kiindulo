@@ -2,9 +2,9 @@
 
 namespace MvvmLab.ViewModels;
 
-public partial class MainViewModel : ObservableRecipient
+public partial class MainPageViewModel : ObservableRecipient
 {
-    public MainViewModel()
+    public MainPageViewModel()
     {
     }
 }
