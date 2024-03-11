@@ -17,7 +17,7 @@ public partial class RecipeDetailViewModel : ObservableRecipient, INavigationAwa
     }
 
     [ObservableProperty]
-    private Recipe? _recipe;
+    private Recipe _recipe;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SendCommentCommand))]
@@ -41,7 +41,7 @@ public partial class RecipeDetailViewModel : ObservableRecipient, INavigationAwa
     [RelayCommand(CanExecute = nameof(CanExecuteSendComment))]
     private async Task SendComment()
     {
-        await _recipeService.SendCommentAsync(Recipe!.Id, new Comment
+        await _recipeService.SendCommentAsync(Recipe.Id, new Comment
         {
             Name = NewCommentName,
             Text = NewCommentText
