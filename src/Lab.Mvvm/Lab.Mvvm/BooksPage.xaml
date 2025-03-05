@@ -31,19 +31,38 @@
                     Content="Clear" />
         </StackPanel>
 
-        <GridView x:Name="booksGridView" Grid.Row="2">
-            <GridView.ItemTemplate>
+        <ItemsView x:Name="booksGridView" Grid.Row="2">
+            <ItemsView.Layout>
+                <LinedFlowLayout ItemsStretch="Fill"
+                                 LineHeight="160"
+                                 LineSpacing="5"
+                                 MinItemSpacing="5" />
+            </ItemsView.Layout>
+            <ItemsView.ItemTemplate>
                 <DataTemplate x:DataType="local:Book">
-                    <Grid Width="300" Height="200">
-                        <Image Source="{x:Bind ImageUrl}" />
-                        <Border Padding="5"
-                                VerticalAlignment="Bottom"
-                                Background="#ccffffff">
-                            <TextBlock Text="{x:Bind Title}" />
-                        </Border>
-                    </Grid>
+                    <ItemContainer>
+                        <Grid>
+                            <Image MinWidth="70"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="{x:Bind ImageUrl}"
+                                   Stretch="UniformToFill" />
+                            <StackPanel Height="40"
+                                        Padding="5,1,5,1"
+                                        VerticalAlignment="Bottom"
+                                        Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                        Opacity=".75"
+                                        Orientation="Vertical">
+                                <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="{x:Bind Title}" />
+                                <TextBlock Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Text="{x:Bind Genre}" />
+                            </StackPanel>
+                        </Grid>
+                    </ItemContainer>
+
                 </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            </ItemsView.ItemTemplate>
+        </ItemsView>
     </Grid>
 </Page>

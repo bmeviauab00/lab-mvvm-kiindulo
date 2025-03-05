@@ -17,9 +17,11 @@ public class Book
 
 public sealed partial class BooksPage : Page
 {
+    private readonly string _connectionString = "Data Source=books.db";
+
     public BooksPage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         SeedDatabase();
         LoadGenres();
         LoadBooks();
@@ -27,7 +29,7 @@ public sealed partial class BooksPage : Page
 
     private void SeedDatabase()
     {
-        using var connection = new SqliteConnection($"Data Source=books.db");
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         string createTableQuery = @"
@@ -84,7 +86,7 @@ public sealed partial class BooksPage : Page
 
     private void LoadGenres()
     {
-        using var connection = new SqliteConnection($"Data Source=books.db");
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         string query = "SELECT DISTINCT Genre FROM books";
@@ -98,11 +100,12 @@ public sealed partial class BooksPage : Page
         }
 
         genreFilterComboBox.ItemsSource = genres;
+        clearGenreFilterButton.IsEnabled = genreFilterComboBox.SelectedItem != null;
     }
 
     private void LoadBooks()
     {
-        using var connection = new SqliteConnection($"Data Source=books.db");
+        using var connection = new SqliteConnection(_connectionString);
         connection.Open();
 
         string query = "SELECT Title, Genre, ImageUrl FROM books";
@@ -136,6 +139,7 @@ public sealed partial class BooksPage : Page
     private void GenreFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         LoadBooks();
+        clearGenreFilterButton.IsEnabled = genreFilterComboBox.SelectedItem != null;
     }
 
     private void clearGenreFilterButton_Click(object sender, RoutedEventArgs e)
