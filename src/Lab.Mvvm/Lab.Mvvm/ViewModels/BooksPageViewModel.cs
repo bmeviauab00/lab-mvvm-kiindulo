@@ -18,13 +18,7 @@ public partial class BooksPageViewModel : ObservableObject
         _booksService = new BookService();
         Genres = _booksService.GetGenres();
         LoadBooks();
-
-        ClearFilterCommand = new RelayCommand(
-            execute: () => SelectedGenre = null,
-            canExecute: () => SelectedGenre != null);
     }
-
-    public IRelayCommand ClearFilterCommand { get; }
 
     [ObservableProperty]
     private List<Book> _books;
@@ -33,13 +27,18 @@ public partial class BooksPageViewModel : ObservableObject
     private List<string> _genres;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ClearFilterCommand))]
     private string _selectedGenre;
 
     partial void OnSelectedGenreChanged(string value)
     {
         LoadBooks();
-        ClearFilterCommand.NotifyCanExecuteChanged();
     }
+
+    private bool IsClearFilterCommandEnabled => SelectedGenre != null;
+
+    [RelayCommand(CanExecute = nameof(IsClearFilterCommandEnabled))]
+    private void ClearFilter() => SelectedGenre = null;
 
     private void LoadBooks() => Books = _booksService.GetBooks(SelectedGenre);
 }
