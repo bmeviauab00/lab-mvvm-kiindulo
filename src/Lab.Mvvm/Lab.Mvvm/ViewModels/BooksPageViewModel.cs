@@ -1,13 +1,13 @@
-﻿using Lab.Mvvm.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+using Lab.Mvvm.Models;
 using Lab.Mvvm.Services;
 
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Lab.Mvvm.ViewModels;
 
-public class BooksPageViewModel : INotifyPropertyChanged
+public partial class BooksPageViewModel : ObservableObject
 {
     private readonly BookService _booksService;
 
@@ -18,45 +18,16 @@ public class BooksPageViewModel : INotifyPropertyChanged
         LoadBooks();
     }
 
+    [ObservableProperty]
     private List<Book> _books;
-    public List<Book> Books
-    { 
-        get => _books;
-        set => SetProperty(ref _books, value);
-    }
 
+    [ObservableProperty]
     private List<string> _genres;
-    public List<string> Genres
-    {
-        get => _genres;
-        set => SetProperty(ref _genres, value);
-    }
 
+    [ObservableProperty]
     private string _selectedGenre;
-    public string SelectedGenre
-    {
-        get => _selectedGenre;
-        set
-        {
-            if (SetProperty(ref _selectedGenre, value))
-                LoadBooks();
-        }
-    }
 
-    private void LoadBooks()
-    {
-        Books = _booksService.GetBooks(SelectedGenre);
-    }
+    partial void OnSelectedGenreChanged(string value) => LoadBooks();
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual bool SetProperty<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (object.Equals(property, value))
-            return false;
-        property = value;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        return true;
-    }
+    private void LoadBooks() => Books = _booksService.GetBooks(SelectedGenre);
 }
