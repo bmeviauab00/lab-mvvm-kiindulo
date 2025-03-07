@@ -60,7 +60,6 @@
                             </StackPanel>
                         </Grid>
                     </ItemContainer>
-
                 </DataTemplate>
             </ItemsView.ItemTemplate>
         </ItemsView>
