@@ -28,7 +28,7 @@
                       ItemsSource="{x:Bind ViewModel.Genres}"
                       PlaceholderText="Filter Genre"
                       SelectedItem="{x:Bind ViewModel.SelectedGenre, Mode=TwoWay}" />
-            <Button x:Name="clearGenreFilterButton" Content="Clear" />
+            <Button Command="{x:Bind ViewModel.ClearFilterCommand}" Content="Clear" />
         </StackPanel>
 
         <ItemsView x:Name="booksGridView"
