@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Lab.Mvvm"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:model="using:Lab.Mvvm.Models"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
@@ -24,14 +25,15 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <ComboBox x:Name="genreFilterComboBox"
                       Grid.Row="1"
+                      ItemsSource="{x:Bind ViewModel.Genres}"
                       PlaceholderText="Filter Genre"
-                      SelectionChanged="GenreFilterComboBox_SelectionChanged" />
-            <Button x:Name="clearGenreFilterButton"
-                    Click="clearGenreFilterButton_Click"
-                    Content="Clear" />
+                      SelectedItem="{x:Bind ViewModel.SelectedGenre, Mode=TwoWay}" />
+            <Button x:Name="clearGenreFilterButton" Content="Clear" />
         </StackPanel>
 
-        <ItemsView x:Name="booksGridView" Grid.Row="2">
+        <ItemsView x:Name="booksGridView"
+                   Grid.Row="2"
+                   ItemsSource="{x:Bind ViewModel.Books, Mode=OneWay}">
             <ItemsView.Layout>
                 <LinedFlowLayout ItemsStretch="Fill"
                                  LineHeight="160"
@@ -39,7 +41,7 @@
                                  MinItemSpacing="5" />
             </ItemsView.Layout>
             <ItemsView.ItemTemplate>
-                <DataTemplate x:DataType="local:Book">
+                <DataTemplate x:DataType="model:Book">
                     <ItemContainer>
                         <Grid>
                             <Image MinWidth="70"

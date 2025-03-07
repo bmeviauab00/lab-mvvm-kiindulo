@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Lab.Mvvm.Services;
+
 using Microsoft.UI.Xaml;
 
 namespace Lab.Mvvm;
@@ -25,6 +26,8 @@ public partial class App : Application
     {
         m_window = new MainWindow();
         m_window.Activate();
+
+        new BookService().SeedDatabase();
     }
 
     private Window? m_window;
