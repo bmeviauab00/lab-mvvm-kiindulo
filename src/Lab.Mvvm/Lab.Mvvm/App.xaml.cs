@@ -25,9 +25,8 @@ public partial class App : Application
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         m_window = new MainWindow();
-        m_window.Activate();
-
         new BookService().SeedDatabase();
+        m_window.Activate();
     }
 
     private Window? m_window;
